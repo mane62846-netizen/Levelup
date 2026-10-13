@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-krll.py - FreeFire Level Up Bot (Auto IP Switching & Proxy Rotation)
+krll3.py - FreeFire Level Up Bot (Auto IP Switching & Proxy Rotation)
 Zero Match Drop + Auto Failover on Search #10
 Integrated with RAGHU Dashboard (index.html + dashboard_server.py)
+Render-ready: PORT env var support, 0.0.0.0 binding
 """
 
 import sys
@@ -70,8 +71,9 @@ except ImportError:
         pass
 
 # ==================== CONFIGURATION ====================
+# Render provides PORT env variable (default 10000)
 WEB_HOST = "0.0.0.0"
-WEB_PORT = 20335
+WEB_PORT = int(os.environ.get("PORT", 20335))
 ACCOUNTS_FILE = "accounts.json"
 PROXIES_FILE = "proxies.txt"
 TOKEN_CACHE_FILE = "token_cache.json"
@@ -1011,7 +1013,7 @@ async def functional_br(addrs, starter_packet, account_region, client_version,
     uid_str = str(account_id)
 
     while True:
-        # Pause check — if dashboard paused this account, skip
+        # Pause check
         if bot_state.is_paused(uid_str):
             await asyncio.sleep(2)
             continue
@@ -1065,12 +1067,10 @@ async def functional_br(addrs, starter_packet, account_region, client_version,
             last_start_time = asyncio.get_running_loop().time()
 
             while True:
-                # Pause check inside loop
                 if bot_state.is_paused(uid_str):
                     await asyncio.sleep(1)
                     continue
 
-                # 🛑 Auto-IP-switch trigger
                 if search_attempts >= MAX_SEARCHES_BEFORE_IP_SWITCH:
                     print_warning(f"[!] UID {uid_str} exceeded #{MAX_SEARCHES_BEFORE_IP_SWITCH} searches. Possible IP Shadow-Ban!")
                     bot_state.log(f"[{uid_str}] Exceeded {MAX_SEARCHES_BEFORE_IP_SWITCH} searches, rotating IP", "warning", uid_str)
@@ -1274,18 +1274,19 @@ def load_accounts():
                 return json.load(f)
         except Exception:
             pass
-    return [{"uid": "7949154846", "password": "11F7AD6B34485CBEC13F56E297A8FE3905F75FB66CA389E59F056AE0E4F80026"}]
+    return []
 
 async def main():
     print_colored("=" * 60, Colors.CYAN)
     print_colored("   TEAM 84FF - FreeFire Level Up Bot (Auto IP Switching)", Colors.GREEN)
     print_colored("  Failover Threshold: Search #10 -> Next Rotating Proxy", Colors.WHITE)
+    print_colored(f"  Web Dashboard: http://0.0.0.0:{WEB_PORT}", Colors.CYAN)
     print_colored("=" * 60, Colors.CYAN)
 
     # 1) Start dashboard
     try:
         await start_web_dashboard(host=WEB_HOST, port=WEB_PORT)
-        print_success(f"Dashboard live → http://localhost:{WEB_PORT}")
+        print_success(f"Dashboard live → http://0.0.0.0:{WEB_PORT}")
     except Exception as e:
         print_error(f"Dashboard failed: {e}")
 
