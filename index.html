@@ -523,7 +523,7 @@ body.nav-open .nav-overlay{display:block}
             <div class="welcome-icon"><i class="fa-solid fa-crown"></i></div>
             <div class="welcome-text">
               <h3>WELCOME TO RAGHU LEVEL UP</h3>
-              <p>Automated Lone Wolf leveling (Lv3+ accounts) with human-like behavior and real-time analytics.</p>
+              <p>Automated Lone Wolf leveling (Lv2+ accounts) with human-like behavior and real-time analytics.</p>
             </div>
             <div class="welcome-stats">
               <div class="welcome-stat"><div class="v" id="w-online">0</div><div class="l">Online</div></div>
@@ -1131,7 +1131,7 @@ function cardInnerHTML(a){
         + '<div class="uid">'+esc(uid)+' <i class="fa-regular fa-copy" data-action="copy-uid" data-uid="'+esc(uid)+'" title="Copy UID"></i></div>'
         + '<div class="card-badges">'
           + '<span class="badge '+cls+'"><i class="fa-solid '+icon+'"></i>'+esc(stText)+(activeMatches>1?' ('+activeMatches+')':'')+'</span>'
-          + '<span class="badge b-mode"><i class="fa-solid fa-crosshairs"></i>LW</span>'
+          + '<span class="badge b-mode"><i class="fa-solid fa-crosshairs"></i>BR</span>'
           + '<span class="badge b-region">'+esc(region)+'</span>'
         + '</div>'
       + '</div>'
@@ -1180,7 +1180,7 @@ function renderQuick(){
 
 function classify(msg){
   var m = String(msg||'').toLowerCase();
-  if(m.indexOf('match')!==-1 || m.indexOf('udp')!==-1 || m.indexOf('thunder')!==-1 || m.indexOf('sharma')!==-1 || m.indexOf('lone wolf')!==-1 || m.indexOf('lw search')!==-1) return 'match';
+  if(m.indexOf('match')!==-1 || m.indexOf('udp')!==-1 || m.indexOf('thunder')!==-1 || m.indexOf('sharma')!==-1 || m.indexOf('lone wolf')!==-1 || m.indexOf('br search')!==-1) return 'match';
   if(m.indexOf('exp')!==-1 || m.indexOf('gained')!==-1) return 'exp';
   if(m.indexOf('login')!==-1 || m.indexOf('token')!==-1 || m.indexOf('cache')!==-1 || m.indexOf('auth')!==-1) return 'login';
   if(m.indexOf('gateway')!==-1 || m.indexOf('tcp')!==-1 || m.indexOf('dns')!==-1 || m.indexOf('network')!==-1 || m.indexOf('connect')!==-1) return 'network';
